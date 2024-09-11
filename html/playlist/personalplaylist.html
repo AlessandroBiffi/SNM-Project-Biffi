@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNM - mie playlist</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/style.css">
+  </head>
+  <body onload="viewPlaylistsPersonali()">
+
+
+    <div style="padding-top: 30px; padding-left: 30px;">
+      <svg onclick="getPreviusURL()" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+      </svg>
+    </div>
+    
+    <div class="container" style="color: white; margin-top: 5vh;">
+      
+      <div class="row ">
+        <div class="col-12 text-center">
+          <h1>LE MIE PLAYLIST</h1>
+        </div>
+      </div>
+
+
+        <div class="row mt-4">
+          <div class="offset-lg-1 col-5">
+            <input id="nome-playlist" class="form-control me-2" type="text" placeholder="nome playlist..." aria-label="text">
+          </div>
+
+          <div class="col-5 col-lg-4">
+            <input id="tag-playlist" class="form-control me-2 " type="text" placeholder="#tag1, #tag2, #tagn..." aria-label="text" onkeyup="setHashtag()">
+          </div>
+
+          <div class="col-2 text-start">
+            <div class="dropdown">
+              <button id="button-tipo" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">TIPO</button>
+              <ul style="overflow-y: scroll; max-height: 100px;" id="menu-tipo" class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item nation" href="#" onclick="selectedTipo(this.innerHTML)">pubblica</a>
+                  <a class="dropdown-item nation" href="#" onclick="selectedTipo(this.innerHTML)">privata</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="row mt-4">
+          <div class="offset-lg-1 col-10 col-lg-9">
+            <input id="descrizione-playlist" class="form-control me-2" type="text" placeholder="descrizione playlist..." aria-label="text">
+          </div>
+
+          <div class="col-2">
+            <button type="button" class="btn btn-success" onclick="newPlaylistPersonale()">CREA</button>
+          </div>
+        </div>
+
+        <div class="offset-1 offset-lg-2 row mt-5">
+          <div class="col-12 text-start">
+            <h3>Playlist personali:</h3>
+          </div>
+        </div>
+
+      <div class="offset-1 offset-lg-2 singola-playlist row mt-3 d-none">
+
+        <div class="col-2 col-lg-1 text-end">
+          <button id="" type="button" class="del-playlist btn btn-danger" onclick="deletePlaylistPersonale(this.id)">del</button>
+        </div>
+        <div class="col-2 col-lg-1 text-start">
+          <button id="" type="button" class="vedi-playlist btn btn-primary" onclick="location.href = 'miaplaylist.html' + '?idplaylist=' + this.id">vedi</button>
+        </div>
+        <div class="titolo-playlist offset-lg-1 offset-0 col-2 text-start my-auto ps-4"></div>
+        <div class="tipo-playlist col-2 text-start my-auto"></div>
+        <div class="data-playlist col-3 text-center my-auto" style="color: grey;"></div>
+
+      </div>
+
+      <div class="offset-1 offset-lg-2 row mt-4">
+        <div class="col-12 text-start">
+          <h3>Playlist importate:</h3>
+        </div>
+      </div>
+
+    <div class="offset-1 offset-lg-2 singola-playlist-imported row mt-3 d-none">
+
+      <div class="col-2 col-lg-1 text-end">
+        <button id="" type="button" class="del-playlist btn btn-danger" onclick="deletePlaylistPersonale(this.id)">del</button>
+      </div>
+      <div class="col-2 col-lg-1 text-start">
+        <button id="" type="button" class="vedi-playlist btn btn-primary" onclick="location.href = 'miaplaylist.html' + '?idplaylist=' + this.id">vedi</button>
+      </div>
+      <div class="titolo-playlist offset-lg-1 offset-0 col-2 text-start my-auto ps-4"></div>
+      <div class="tipo-playlist col-2 text-start my-auto"></div>
+      <div class="data-playlist col-3 text-center my-auto" style="color: grey;"></div>
+
+    </div>
+  
+  </div>
+
+
+  <script src="../../src/code.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </body>
+
+</html>

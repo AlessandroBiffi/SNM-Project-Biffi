@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNM - home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../styles/style.css">
+  </head>
+  <body onload="createNations(); createGenres()">
+    <div class="container pt-5">
+      <div class="row ">
+
+        <div class="col-12">
+          <div class="row">
+            <div class="text-center pb-2">
+              <div id="marchio">SNM</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class=" col-4 col-md-4 col-lg-4">
+              <input id="search-home-track" class="form-control me-2" type="search" placeholder="track..." aria-label="Search" onkeyup="searchContent()" onmousemove="searchContent()">
+            </div>
+            <div class=" col-4 col-md-4 col-lg-4">
+              <input id="search-home-artist" class="form-control me-2" type="search" placeholder="artist..." aria-label="Search" onkeyup="searchContent()" onmousemove="searchContent()">
+            </div>
+            <div class=" col-4 col-md-4 col-lg-4">
+              <input id="search-home-album" class="form-control me-2" type="search" placeholder="album..." aria-label="Search" onkeyup="searchContent()" onmousemove="searchContent()">
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row pt-3">
+            <div class="offset-3 col-3 text-end pr-1">
+              <div class="dropdown">
+                <button id="button-nations" class="btn btn-secondary dropdown-toggle" style="width: 100%; background-color: rgb(37, 37, 37); border-color: rgb(37, 37, 37);;" type="button" data-bs-toggle="dropdown" aria-expanded="false"> NAZ </button>
+                <ul style="overflow-y: scroll; max-height: 100px;" id="menu-nations" class="dropdown-menu">
+                  <li>
+                    <a id="" class="dropdown-item nation d-none" href="#" onclick="selected_naz(this.innerHTML)"></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-3 text-start pl-1">
+              <div class="dropdown">
+                <button id="button-genres" class="btn btn-secondary dropdown-toggle" style="width: 100%; background-color: rgb(37, 37, 37); border-color: rgb(37, 37, 37);;" type="button" data-bs-toggle="dropdown" aria-expanded="false"> GEN </button>
+                <ul style="overflow-y: scroll; max-height: 100px;" id="menu-genres" class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item genres d-none" href="#" onclick="selected_genre(this.innerHTML);"></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 mt-4">
+            <div class="row">
+              <div class=" col-6 text-end">
+                <h4 class="redirect-botton-home" style="padding-right: 1%" onclick="location.href = '../account/account.html'">PROFILO</h4>
+              </div>
+              <div class=" col-6 text-start">
+                <h4 class="redirect-botton-home" style="padding-left: 1%" onclick="location.href = '../playlist/hubplaylist.html'">PLAYLIST</h4>
+              </div>
+            </div>
+  
+        </div>
+
+        </div>
+
+        <div id="loadingBox" class="col-12 text-center" style="margin-top: 15vh;">
+          <div>
+            <h1 id="loading" style="opacity: 20%;">Cerca una canzone</h1>
+          </div>
+        </div>
+
+        <div class="col-12 offset-lg-1 col-lg-10 ">
+          <div id="container-card home" class="row row-cols-3 row-cols-sm-4 row-cols-md-5 row-cols-lg-5 row-cols-xl-6 g-3 m-2 justify-content-center">
+            <div class="col home d-none mt-3 m-1 p-1 d-flex justify-content-center text-center">  <!-- d-flex justify-content-center text-center per centrare contenuto all'interno della colonna se presente testo e immagine-->
+              <div id="" class="card home h-100 text-center d-flex flex-column align-items-center" onclick="location.href = 'track.html' + '?idTrack=' + this.id" onmouseover="change_color_card(this.id)" onmouseleave="return_color_card(this.id)">
+                <img src="" class="card-img-top home p-2" alt="...">
+                <div class="card-body home">
+                  <h5 class="card-title home ml-1 align-top">nome</h5>
+                  <p class="card-text home align-bottom">artista</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <script src="../../src/code.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  </body>
+</html>
