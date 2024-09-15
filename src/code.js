@@ -435,55 +435,69 @@ function selected_genre(new_genre) {
 
 function searchContent() {
 
-    //console.log(naz, genre)
+  //console.log(naz, genre)
+  var track = document.getElementById("search-home-track").value
+  var artist = document.getElementById("search-home-artist").value
+  var album = document.getElementById("search-home-album").value
+  var trackSearch = "track:" + track
+  var albumSearch = " album:" + album
+  var artistSearch = " artist:" + artist
 
-    var track = document.getElementById("search-home-track").value
-    var artist = document.getElementById("search-home-artist").value
-    var album = document.getElementById("search-home-album").value
-    var trackSearch = "track:" + track
-    var albumSearch = " album:" + album
-    var artistSearch = " artist:" + artist
+  if (track.length > 0 || artist.length > 0 || album.length > 0) {
 
-    if (track.length > 0 || artist.length > 0 || album.length > 0) {
+    var contenuto = document.getElementsByClassName("col home")[0]
+    var container = document.getElementById("container-card home")
+    container.innerHTML = ""
+    container.append(contenuto)
 
-        //per permetere di vedere ad esempio tracks senza inserire per forza anche artist e album
-        if (track == "")
-            trackSearch = ""
-        if (album == "")
-            albumSearch = ""
-        if (artist == "")
-            artistSearch = ""
+    //per permetere di vedere ad esempio tracks senza inserire per forza anche artist e album
+    if (track == "")
+      trackSearch = ""
+    if (album == "")
+      albumSearch = ""
+    if (artist == "")
+      artistSearch = ""
 
-        if (genre == undefined)
-            genreSearch = ""
-        else
-            genreSearch = " genre:" + genre
+    if (genre == undefined)
+      genreSearch = ""
+    else
+      genreSearch = " genre:" + genre
 
-        if (naz == undefined)
-            naz = "IT"
+    if (naz == undefined)
+      naz = "IT"
 
+    //console.log("https://api.spotify.com/v1/search?q=" + trackSearch + albumSearch + artistSearch + "&type=track&market=" + naz + "&limit=12")
+    fetch("https://api.spotify.com/v1/search?q=" + trackSearch + albumSearch + artistSearch + genreSearch + "&type=track&market=" + naz + "&limit=12", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + access_token,
+        },
+      })
+      .then((response) => response.json())
+      .then((searchResults) => {
+        console.log(searchResults);
+        document.getElementById("loadingBox").classList.add("d-none")
+        viewContentTrack(searchResults)
+      })
+  } else {
 
-        //console.log("https://api.spotify.com/v1/search?q=" + trackSearch + albumSearch + artistSearch + "&type=track&market=" + naz + "&limit=12")
+    if (naz == undefined)
+      naz = "IT"
 
-        fetch("https://api.spotify.com/v1/search?q=" + trackSearch + albumSearch + artistSearch + genreSearch + "&type=track&market=" + naz + "&limit=12", {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer " + access_token,
-                },
-            })
-            .then((response) => response.json())
-            .then((searchResults) => {
-                console.log(searchResults);
-                document.getElementById("loadingBox").classList.add("d-none")
-                viewContentTrack(searchResults)
-            })
-    } else {
-        var contenuto = document.getElementsByClassName("col home")[0]
-        var container = document.getElementById("container-card home")
-        container.innerHTML = ""
-        container.append(contenuto)
-        document.getElementById("loadingBox").classList.remove("d-none")
-    }
+    fetch("https://api.spotify.com/v1/playlists/37i9dQZEVXbMDoHDwVN2tF/tracks?offset=0&limit=12", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    })
+    .then((response) => response.json())
+    .then((searchResults) => {
+      console.log(searchResults);
+      document.getElementById("loadingBox").classList.add("d-none")
+      viewContentTrackTop(searchResults)
+    })
+
+  }
 
 }
 
@@ -514,6 +528,36 @@ function viewContentTrack(data) {
         contenuto.after(clone)
 
     }
+
+}
+
+//GENERA BOX TRACCE TOP
+
+function viewContentTrackTop(data) {
+
+  console.log(data)
+
+  var contenuto = document.getElementsByClassName("col home")[0]
+  var container = document.getElementById("container-card home")
+  container.innerHTML = ""
+  container.append(contenuto)
+
+  for (var i = data.items.length - 1; i >= 0; i--) {
+      var clone = contenuto.cloneNode(true)
+
+        clone.getElementsByClassName('card home h-100 text-center')[0].id = data.items[i].track.id;
+        clone.getElementsByClassName('card-text home')[0].innerHTML = data.items[i].track.artists[0].name
+        clone.getElementsByClassName('card-title home')[0].innerHTML = data.items[i].track.name
+        if (data.items[i].track.album.images.length != 0)
+           clone.getElementsByClassName('card-img-top home')[0].src = data.items[i].track.album.images[0].url
+        else
+           clone.getElementsByClassName('card-img-top home')[0].src = "https://placehold.co/400"
+
+      clone.classList.remove('d-none')
+
+      contenuto.after(clone)
+
+  }
 
 }
 
@@ -725,23 +769,16 @@ function newPlaylistPersonale(){
   var tipo = document.getElementById("button-tipo").innerHTML
   var descrizione = document.getElementById("descrizione-playlist").value
 
-  var data = new Date();
-  var dd = String(data.getDate()).padStart(2, '0');
-  var mm = String(data.getMonth() + 1).padStart(2, '0'); //January is 0!
-  var yyyy = data.getFullYear();
-  data = dd + '/' + mm + '/' + yyyy;
-
   var idUser = sessionStorage.getItem("_iduser")
+  var nameUser = sessionStorage.getItem("name_user")
 
   var data = {
     "nome": nome,
     "descrizione": descrizione,
-    "tags": tags,
     "tipo": tipo,
-    "data_creazione" : data,
     "_iduser" : idUser,
-    "songs" : [],
-    "isPublic": 'false'
+    "tags": tags,
+    "songs" : []
 }
 
   fetch("http://127.0.0.1:"+port+"/users/playlistPersonali/add", {
@@ -750,7 +787,7 @@ function newPlaylistPersonale(){
               "Content-Type": "application/json"
           },
           body: JSON.stringify(data) 
-        }).then(res => res.json()) // or res.text()
+        }).then(res => res.json()) // o res.text()
         .then(res => {
 
           console.log(res)
@@ -812,6 +849,9 @@ function viewPlaylistsPersonali(){
 
           }
 
+          document.getElementsByClassName("loadingBox")[0].classList.add("d-none")
+          document.getElementsByClassName("loadingBox")[1].classList.add("d-none")
+
         })
 
 }
@@ -851,7 +891,11 @@ function selectedTipo(tipo){
 //SETTAGGIO CORRETTO PER HASHTAG
 
 function setHashtag(){
-  const inputElement = document.getElementById("tag-playlist");
+
+    var inputElement = document.getElementById("tag-playlist");
+    if(!inputElement)
+      inputElement = document.getElementById("search-esplora-tags");  //per pagina di esplora playlist
+
     const inputText = inputElement.value;
     
     // Suddivide il testo in base alle virgole e rimuove gli spazi in eccesso
@@ -871,6 +915,8 @@ function setHashtag(){
 
     // Unisce il risultato in una stringa e aggiorna il valore dell'input
     inputElement.value = risultato.join(', ');
+
+    checkVuoto(); //per sezione esplora (quando non c'e scritto nulla)
 }
 
 //################################################# TRACK #################################################
@@ -1034,7 +1080,7 @@ function viewPlaylistPersonale(idplaylist){
           var idBy = sessionStorage.getItem("idBy")
           console.log(idBy)
 
-          if(idBy != "account eliminato"){
+          if(idBy != "(account eliminato)"){
           
           fetch("http://127.0.0.1:"+port+"/user/" + idBy, {
             method: 'GET',
@@ -1143,6 +1189,7 @@ function viewArtistSalvati(){
             clone.getElementsByClassName("btn artista-salvato")[0].value = res.artists_favorites[i]
             artist.before(clone)
           }
+          document.getElementById("loadingBox").classList.add("d-none")
 
         })
   
@@ -1233,6 +1280,7 @@ function viewGenresSalvati(){
             clone.getElementsByClassName("btn genere-salvato")[0].value = res.genres[i]
             artist.before(clone)
           }
+          document.getElementById("loadingBox").classList.add("d-none")
 
         })
   
@@ -1281,123 +1329,137 @@ function selected_new_genre(new_genre) {
 
 //################################################# ESPLORA PLAYLIST #################################################
 
-//MOSTRA PLAYLISTS PUBBLICHE
-
-function seePublicPlaylist(){
-
-  var idcurrentuser = sessionStorage.getItem("_iduser")
-  var byUsers = []
-
-    fetch("http://127.0.0.1:"+port+"/esplora?iduser=" + idcurrentuser, {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-    }
-  }).then(res => res.json()) // or res.text()
-  .then(res => {
-    
-    console.log(res)
-
-    for(var i=0; i < res.length ; i++){
-      if(idcurrentuser !== res[i]._iduser){   //per non vedere anche le mie playlist tra le pubbliche
-        var playlist = document.getElementsByClassName("singola-playlist-pubblica")[0]
-        var clone = playlist.cloneNode(true)
-        clone.classList.remove('d-none')
-        clone.getElementsByClassName("titolo-playlist")[0].innerHTML = res[i].nome
-        clone.getElementsByClassName("data-playlist")[0].innerHTML = res[i].data_creazione
-        clone.getElementsByClassName("vedi-playlist")[0].id = res[i]._id
-        clone.getElementsByClassName("by-playlist")[0].value = res[i]._iduser  //mi serve per matchare id con nome del creatore della playlist pubblica, senno non so chi l'ha creata
-        byUsers.push(res[i]._iduser)
-        playlist.before(clone)
-      }
-    }
-
-  }).then(res => {
-
-    //console.log(res)
-    console.log(byUsers)
-    
-    fetch("http://127.0.0.1:"+port+"/esplora/playlistPubblica/by?usersPub=" + JSON.stringify(byUsers), {
-      method: 'GET',
-      headers: {
-        "Content-Type": "application/json"
-       }
-     }).then(res => res.json()) // or res.text()
-    .then(res => {
-
-       console.log(res)
-      for(var h=0; h < byUsers.length ; h++){ //length degli utenti anche doppioni. totale delle playlist
-        for(var j=0; j < res.length ; j++){  //length degli utenti che hanno le playlist pubbliche
-          if( document.getElementsByClassName("by-playlist")[h].value === res[j]._id) //match detto prima
-            document.getElementsByClassName("by-playlist")[h].innerHTML = "by " + res[j].name_user
-        }
-      }
-
-     })
-  })
-}
 
 //LIMITA LA VISTA ALLE PLAYLIST PUBBLICHE CHE COINCIDONO CON IL NOME PLAYLIST DELLA RICERCA
 
-function ricercaPlaylistPub(){
-  
-  var parolaRicerca = document.getElementById("search-esplora").value
-  //console.log(parolaRicerca)
+function ricercaPlaylistPub() {
 
-  var playlist = document.querySelectorAll('.singola-playlist-pubblica');
-  //console.log(playlist[1])
-  //console.log(playlist)
+  var searchNome = document.getElementById("search-esplora").value
+  var searchBy = document.getElementById("search-esplora-by").value
+  var searchTags = document.getElementById("search-esplora-tags").value
+  document.getElementById("search-esplora-by").value = ""
+  document.getElementById("search-esplora-tags").value = ""
+  searchTags = searchTags.split(', ')
 
-  if(parolaRicerca.length > 0){
-    for(var i=0; playlist.length-1; i++){
-      playlist[i].classList.remove("d-none")  //per far si che mettendo una lettera sbagliata mentre digito una playlist e cancellandola funzioni ugualmente
-      var name_playlist = document.getElementsByClassName("titolo-playlist")
-      //console.log(name_playlist[1].innerHTML)
-      if(!name_playlist[i].innerHTML.startsWith(parolaRicerca)){
-        playlist[i].classList.add("d-none")
+  document.getElementById("noResultBox").classList.add("d-none")
+
+  if (searchNome.length > 0 || searchBy.length > 0 || searchTags[0].length > 0) {
+
+    var idcurrentuser = sessionStorage.getItem("_iduser")
+    
+    var urlCompleto = "http://127.0.0.1:" + port + "/esplora?iduser=" + idcurrentuser + "&nome=" + searchNome + "&by=" + searchBy+ "&tags="
+
+    for(var i=0; i<searchTags.length; i++){
+      urlCompleto = urlCompleto + searchTags[i].substring(1)
+      if(i != searchTags.length-1){
+        urlCompleto = urlCompleto + ","
       }
     }
-  }else{
+    console.log(urlCompleto)
 
-     for(var j=0; playlist.length-1; j++){
-      if(j!=playlist.length-1)
-        playlist[j].classList.remove("d-none")
-     }
-     //playlist[0].classList.add("d-none")     //perche cosi non va BOOOH
+    fetch(urlCompleto, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(res => res.json()) // or res.text()
+      .then(res => {
+
+        console.log(res)
+        var playlistSvuota = document.getElementsByClassName("singola-playlist-pubblica")
+          for(var i=0; i<playlistSvuota.length; i++){ 
+            playlistSvuota[i].classList.add("d-none")
+          }
+
+        if(res.users.length != 0){  //uguale farlo su playlists
+          for (var i = 0; i < res.playlists.length; i++) {
+              var playlist = document.getElementsByClassName("singola-playlist-pubblica")[0]
+              var clone = playlist.cloneNode(true)
+              clone.classList.remove('d-none')
+              clone.getElementsByClassName("titolo-playlist")[0].innerHTML = res.playlists[i].nome
+              clone.getElementsByClassName("data-playlist")[0].innerHTML = res.playlists[i].data_creazione
+              clone.getElementsByClassName("vedi-playlist")[0].id = res.playlists[i]._id //per ricavare info della playlist nella pagina che reindirizza "vedi"
+              
+              for(var j=0; j<res.users.length; j++ ){
+                if(res.playlists[i]._iduser == res.users[j]._id)
+                clone.getElementsByClassName("by-playlist")[0].innerHTML = res.users[j].name_user
+              }
+              
+              document.getElementById("loadingBox").classList.add("d-none")
+              playlist.before(clone)
+          }
+
+          document.getElementById("text-avvertimento").classList.add("d-none")
+
+        }else{
+          document.getElementById("noResultBox").classList.remove("d-none")
+          document.getElementById("text-avvertimento").classList.add("d-none")
+        }
+
+      })
+
+  } else if(searchNome.length <= 0 && searchBy.length <= 0 && searchTags[0].length <= 0){
+
+    //metto ultime 5 playlist create dagli utenti
+    seeLastTenPlay()
+
   }
+}
+
+function seeLastTenPlay(){
+
+  var idcurrentuser = sessionStorage.getItem("_iduser")
+  document.getElementById("noResultBox").classList.add("d-none")
+
+    fetch("http://127.0.0.1:" + port + "/esplora/lastTen?iduser=" + idcurrentuser, {
+      method: 'GET',
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => res.json()) // or res.text()
+    .then(res => {
+
+      var playlistSvuota = document.getElementsByClassName("singola-playlist-pubblica")
+      for(var i=0; i<playlistSvuota.length; i++){ 
+        playlistSvuota[i].classList.add("d-none")
+      }
+
+      console.log(res)
+
+      for (var i = 0; i < res.playlists.length; i++) {
+          var playlist = document.getElementsByClassName("singola-playlist-pubblica")[0]
+          var clone = playlist.cloneNode(true)
+          clone.classList.remove('d-none')
+          clone.getElementsByClassName("titolo-playlist")[0].innerHTML = res.playlists[i].nome
+          clone.getElementsByClassName("data-playlist")[0].innerHTML = res.playlists[i].data_creazione
+          clone.getElementsByClassName("vedi-playlist")[0].id = res.playlists[i]._id
+
+          for(var j=0; j<res.users.length; j++ ){
+            if(res.playlists[i]._iduser == res.users[j]._id)
+            clone.getElementsByClassName("by-playlist")[0].innerHTML = res.users[j].name_user
+          }
+
+          document.getElementById("text-avvertimento").classList.remove("d-none")
+          document.getElementById("loadingBox").classList.add("d-none")
+          playlist.before(clone)
+      }
+
+    })
+}
+
+function checkVuoto(){  //funzione dedicata perche non voglio che ogni volta che digito una lettera cerchi quello desiderato come nella home... quindi si doppio il codice ma serve per renderlo dinamico con onkeyup
+
+    var searchNome = document.getElementById("search-esplora").value
+    var searchBy = document.getElementById("search-esplora-by").value
+    var searchTags = document.getElementById("search-esplora-tags").value
+    searchTags = searchTags.split(', ')
+
+    if(searchNome.length <= 0 && searchBy.length <= 0 && searchTags[0].length <= 0){
+      seeLastTenPlay()
+    }
 
 }
 
-//LIMITA LA VISTA ALLE PLAYLIST PUBBLICHE CHE COINCIDONO CON IL CREATORE PLAYLIST DELLA RICERCA
-
-function ricercaPlaylistPubBy(){
-  
-  var parolaRicerca = document.getElementById("search-esplora-by").value
-  //console.log(parolaRicerca)
-
-  var playlist = document.querySelectorAll('.singola-playlist-pubblica');
-  //console.log(playlist[1])
-  //console.log(playlist)
-
-  if(parolaRicerca.length > 0){
-    for(var i=0; playlist.length-1; i++){
-      playlist[i].classList.remove("d-none")  //per far si che mettendo una lettera sbagliata mentre digito una playlist e cancellandola funzioni ugualmente
-      var by_playlist = document.getElementsByClassName("by-playlist")
-      //console.log(by_playlist[1].innerHTML)
-      if(!by_playlist[i].innerHTML.substring(3).startsWith(parolaRicerca)){
-        playlist[i].classList.add("d-none")
-      }
-    }
-  }else{
-
-     for(var j=0; playlist.length-1; j++){
-      if(j!=playlist.length-1)
-        playlist[j].classList.remove("d-none")
-     }
-     //playlist[0].classList.add("d-none")     //perche cosi non va BOOOH
-  }
-
-}
 
 //################################################# PLAYLIST PUBBLICA #################################################
 
@@ -1470,7 +1532,7 @@ function importa(idPlaylistPub){
   var data = {
     "_iduser": iduser,
     "idplaylist": idPlaylistPub,
-    "isPublic": 'true'
+    "tipo": "importata"
 }
 
 fetch("http://127.0.0.1:"+port+"/users/playlistPersonali/add", {

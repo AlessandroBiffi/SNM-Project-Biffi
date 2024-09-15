@@ -1,65 +1,44 @@
-@font-face {
-  font-family: "fontSpotify";
-  src: url(fonts/CircularSp-Bold-fe1cfc14b7498b187c78fa72fb72d148.woff2) format("truetype");
-}
-
-html{
+html {
   height: 100%;
   margin: 0;
 }
 
-body{
+body {
   min-height: 100vh;
   background-color: black;
   font-family: fontSpotify;
   color: white;
 }
 
+@font-face {
+  font-family: "fontSpotify";
+  src: url(fonts/CircularSp-Bold-fe1cfc14b7498b187c78fa72fb72d148.woff2)
+    format("truetype");
+}
 
-.img-artist{
+.img-artist {
   border-radius: 50%;
-  height: 90px; 
-  width: 90px; 
+  height: 90px;
+  width: 90px;
   object-fit: cover;
 }
 
-.artist-name{
+.artist-name {
   margin-top: 18px;
   font-size: 15px;
 }
 
-
-@media screen and (max-width: 991px) {
-  #playlist {
-    display: none;
-  }
-}
-
-
-.card-img-top{
+.card-img-top {
   border-radius: 15%;
-  height: 120px; 
-  width: 120px; 
+  height: 120px;
+  width: 120px;
   object-fit: cover;
 }
 
-@media screen and (max-width: 767px) {
-  .card-img-top {
-    height: 100px; 
-    width: 100px;
-  }
-}
-
-.card{
-  background-color: black; 
+.card {
+  background-color: black;
   width: 8rem;
   border-radius: 10%;
-}
-
-@media screen and (max-width: 767px) {
-  .card {
-    width: 7rem;
-  }
 }
 
 .card-title {
@@ -68,98 +47,25 @@ body{
   text-align: center;
 }
 
-
-
-@media screen and (max-width: 767px) {
-  .card-title{
-    font-size: x-small;
-  }
-
-  div{
-    font-size: 12px;
-  }
-
-  .text-login{
-    margin-top: 5px;
-    font-size: 14px;
-  }
-  
-  input::placeholder{
-    font-size: 12px;
-  }
-
-  .card-title .artist{
-    font-size: 6px;
-  }
-
-  #img-track{
-    width: 220px;
-    height: 220px;
-    display: flex;
-    text-align: center;
-  } 
-
-}
-
-#titolo-track{
+#titolo-track {
   font-size: 32px;
 }
 
-#artista-track{
+#artista-track {
   font-size: 24px;
 }
 
-@media screen and (max-width: 575px) {
-  #titolo-track{
-    padding-top: 1vh;
-    font-size: 22px;
-  }
-
-  #artista-track{
-    font-size: 18px;
-  }
-
-  #img-track{
-    width: 190px;
-    height: 190px;
-    display: flex;
-    text-align: center;
-  } 
-
-}
-
-.card-text{
+.card-text {
   color: rgb(151, 151, 151);
   font-size: 14px;
   text-align: center;
 }
 
-@media screen and (max-width: 767px) {
-  .card-text{
-    font-size: xx-small;
-  }
-}
-
-#img-scheda{
-  height: 300px; 
-  width: 300px; 
+#img-scheda {
+  height: 300px;
+  width: 300px;
   object-fit: cover;
 }
-
-@media screen and (max-width: 1280px) {
-  #img-scheda {
-    height: 250px; 
-    width: 250px;
-  }
-}
-
-@media screen and (max-width: 767px) {
-  #img-scheda {
-    height: 150px; 
-    width: 150px;
-  }
-}
-
 
 .cerchio {
   height: 120px;
@@ -169,56 +75,58 @@ body{
   margin: auto;
 }
 
-
-.redirect-botton-home{
-  color: aliceblue; 
-  padding-bottom: 1%; 
+.redirect-botton-home {
+  color: aliceblue;
+  padding-bottom: 1%;
   padding-right: 1%;
 }
 
-.redirect-botton-home:hover{
+.redirect-botton-home:hover {
   color: rgb(157, 223, 149);
 }
 
-
+/* STILE/EFFETO MARCHIO SNM */
 
 /* Importa il font Poppins da Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
 
 /* Definizione dell'animazione */
 @keyframes colorChange {
-    0% {
-        color: white; /* Colore iniziale */
-        text-shadow: none; /* Nessun ombra all'inizio */
-    }
-    100% {
-        color: rgb(157, 223, 149); /* Colore finale */
-        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3), /* Ombra esterna leggera */
-                     0 0 10px rgba(157, 223, 149, 0.7); /* Bagliore verde */
-    }
+  0% {
+    color: white; /* Colore iniziale */
+    text-shadow: none; /* Nessun ombra all'inizio */
+  }
+  100% {
+    color: rgb(157, 223, 149); /* Colore finale */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3),
+      0 0 10px rgba(157, 223, 149, 0.7); /* ombra esterna e bagliore verde */
+  }
 }
 
 #marchio {
-    color: white; /* Colore iniziale del testo */
-    font-family: 'Poppins', Arial, sans-serif; /* Font simile a Spotify */
-    font-size: 48px; /* Dimensione del testo */
-    font-weight: 600; /* Spessore del testo */
-    padding-bottom: 2%;
-    padding: 20px;
-    border-radius: 10px; /* Angoli arrotondati */
-    animation: colorChange 3s ease-in-out forwards; /* Definizione dell'animazione */
-    transition: all 0.3s ease; /* Transizione morbida per hover */
+  color: white; /* Colore iniziale del testo */
+  font-family: "Poppins", Arial, sans-serif; /* Font simile a Spotify */
+  font-size: 48px; /* Dimensione del testo */
+  font-weight: 600; /* Spessore del testo */
+  padding-bottom: 2%;
+  padding: 20px;
+  border-radius: 10px; /* Angoli arrotondati */
+  animation: colorChange 3s ease-in-out forwards; /* Definizione dell'animazione */
+  transition: all 0.3s ease; /* Transizione morbida per hover */
 }
 
 #marchio:hover {
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5), /* Ombra più pronunciata */
-                 0 0 20px rgba(157, 223, 149, 0.8), /* Bagliore più intenso */
-                 0 0 30px rgba(157, 223, 149, 0.6); /* Bagliore più ampio */
-    transform: scale(1.05); /* Leggero ingrandimento al passaggio del mouse */
+  text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5),
+    /* Ombra più pronunciata */ 0 0 20px rgba(157, 223, 149, 0.8),
+    /* Bagliore più intenso */ 0 0 30px rgba(157, 223, 149, 0.6); /* Bagliore più ampio */
+  transform: scale(1.05); /* Leggero ingrandimento al passaggio del mouse */
 }
 
+/* EFFETTO BOTTONI HUB */
+
 .animated-button {
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
   background-color: #2a713b; /* Initial green color */
   border: none; /* Removing default border */
   outline: none; /* Removing outline */
@@ -236,13 +144,19 @@ body{
   box-shadow: 0 0 10px 2px rgba(0, 64, 0, 0.5); /* Reduce shadow on click */
 }
 
-.bi{
+/* .bi {
   transition: 0.4s;
 }
 
-.bi:hover{
+.bi:hover {
   transition: 0.4s;
-  transform: scale(1.150);
+  transform: scale(1.15);
+} */
+
+/* EFFETTO LOADING */
+
+#loading {
+  opacity: 20%;
 }
 
 #loading:after {
@@ -265,5 +179,103 @@ body{
 @-webkit-keyframes ellipsis {
   to {
     width: 40px;
+  }
+}
+
+/* SCHERMO WIDE 1280 */
+
+@media screen and (max-width: 1280px) {
+  #img-scheda {
+    height: 250px;
+    width: 250px;
+  }
+}
+
+/* SCHERMO WIDE 991 */
+
+@media screen and (max-width: 991px) {
+  #playlist {
+    display: none;
+  }
+}
+
+/* SCHERMO WIDE 767 */
+
+@media screen and (max-width: 767px) {
+
+  #img-scheda {
+    height: 150px;
+    width: 150px;
+  }
+
+  .card-text {
+    font-size: xx-small;
+  }
+
+  .card-img-top {
+    height: 100px;
+    width: 100px;
+  }
+
+  .card {
+    width: 7rem;
+  }
+
+  .card-title {
+    font-size: x-small;
+  }
+
+  div {
+    font-size: 12px;
+  }
+
+  .text-login {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+
+  input::placeholder {
+    font-size: 12px;
+  }
+
+  .card-title .artist {
+    font-size: 6px;
+  }
+
+  #img-track {
+    width: 240px;
+    height: 240px;
+    padding-left: 13px;
+    display: flex;
+    text-align: center;
+  }
+
+  #titolo-track {
+    font-size: 22px;
+  }
+
+  #artista-track {
+    font-size: 20px;
+  }
+}
+
+/* SCHERMO WIDE 575 */
+
+@media screen and (max-width: 575px) {
+  #titolo-track {
+    padding-top: 1vh;
+    font-size: 22px;
+  }
+
+  #artista-track {
+    font-size: 18px;
+  }
+
+  #img-track {
+    width: 190px;
+    height: 190px;
+    padding-left: 0;
+    display: flex;
+    text-align: center;
   }
 }

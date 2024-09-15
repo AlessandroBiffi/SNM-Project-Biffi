@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <meta charset="UTF-8">
@@ -9,46 +8,39 @@
     <link rel="stylesheet" href="../../styles/style.css">
   </head>
   <body onload="get_user_name()">
-    
+
     <div style="padding-top: 30px; padding-left: 30px;">
       <svg onclick="location.href = '../starter/home.html'" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
       </svg>
     </div>
 
     <div class="container" style="color: white;">
-
       <div class="row row-cols-12 text-center" style="margin-top: 15vh">
-
         <div class="col-12 mt-4 mb-4">
-          
-          <h1>Benvenuto <span id="nameuser"></span></h1>
+          <h1>Benvenuto <span id="nameuser"></span>
+          </h1>
         </div>
 
         <div class="col-12 mt-4">
           <p>dati personali</p>
-          <button type="button" class="btn btn-success" onclick= "location.href = 'datipersonali.html'">visualizza</button>
+          <button type="button" class="btn btn-success" onclick="location.href = 'datipersonali.html'">visualizza</button>
         </div>
 
         <div class="col-12 mt-4">
           <p>artisti preferiti</p>
-          <button type="button" class="btn btn-success" onclick= "location.href = 'artistipreferiti.html'">visualizza</button>
+          <button type="button" class="btn btn-success" onclick="location.href = 'artistipreferiti.html'">visualizza</button>
         </div>
 
         <div class="col-12 mt-4">
           <p>preferenze musicali</p>
-          <button type="button" class="btn btn-success" onclick= "location.href = 'prefmusicali.html'">visualizza</button>
+          <button type="button" class="btn btn-success" onclick="location.href = 'prefmusicali.html'">visualizza</button>
         </div>
-
-        <!-- <div class="col-12 mt-4">
-          <p>elimina profilo</p>
-          <button type="button" class="btn btn-danger" onclick="deleteAccount()">elimina</button>
-        </div> -->
-
+        <!-- <div class="col-12 mt-4"><p>elimina profilo</p><button type="button" class="btn btn-danger" onclick="deleteAccount()">elimina</button></div> -->
       </div>
 
-  <script src="../../src/code.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  </body>
-
+      <script src="../../src/code.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+    </body>
 </html>

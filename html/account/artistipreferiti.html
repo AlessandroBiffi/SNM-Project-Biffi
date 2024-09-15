@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <meta charset="UTF-8">
@@ -9,15 +8,14 @@
     <link rel="stylesheet" href="../../styles/style.css">
   </head>
   <body onload="viewArtistSalvati()">
-    
+
     <div style="padding-top: 30px; padding-left: 30px;">
       <svg onclick="location.href = 'account.html'" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
-        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+        <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
       </svg>
     </div>
 
     <div class="container" style="color: white;">
-
       <div class="row" style="margin-top: 15vh">
 
         <div class="col-6">
@@ -29,9 +27,11 @@
                 </div>
               </div>
             </div>
+
             <div class="col-8">
               <input id="search-artist" class="form-control me-2" type="search" placeholder="search artist..." aria-label="Search" onkeyup="searchArtist(this.value)" onmouseover="searchArtist(this.value)">
             </div>
+
             <div class="col-4">
               <div id="pagination-artists" class="row d-flex justify-content-top text-center pt-1">
                 <div class="col-6 page-item-reg text-end">
@@ -44,21 +44,17 @@
             </div>
           </div>
 
-
           <div id="box-artist-search" class="row row-cols-2  g-4 mt-2 justify-content-center">
-              <div class="singolo-artista-search d-none">
-                    <div class="card artist h-100 text-center d-flex flex-column align-items-center" onclick="modificaArtistsFav(this.value, 'add')" onmouseover="change_color_card(this.id)" onmouseleave="return_color_card(this.id)">
-                      <img src="" class="card-img-top artist p-2" alt="...">
-                      <div class="card-body artist">
-                        <h5 class="card-title artist ml-1 align-top">nome artista</h5>
-                      </div>
-                    </div>
+            <div class="singolo-artista-search d-none">
+              <div class="card artist h-100 text-center d-flex flex-column align-items-center" onclick="modificaArtistsFav(this.value, 'add')" onmouseover="change_color_card(this.id)" onmouseleave="return_color_card(this.id)">
+                <img src="" class="card-img-top artist p-2" alt="...">
+                <div class="card-body artist">
+                  <h5 class="card-title artist ml-1 align-top">nome artista</h5>
+                </div>
               </div>
+            </div>
           </div>
-
-          </div>
-          
-        
+        </div>
 
         <div class="col-6">
           <div class="row mb-3">
@@ -66,27 +62,30 @@
               <h3>Artisti preferiti</h3>
             </div>
           </div>
+
+          <div id="loadingBox" class="row">
+            <div class="col-12 text-center">
+              <h5 id="loading">Caricamento</h5>
+            </div>
+          </div>
+
           <div class="singolo-artista-salvato row text-start mb-2 d-none">
             <div class="offset-3 col-3 text-end">
               <button type="button" class="btn artista-salvato btn-danger" value="" onclick="modificaArtistsFav(this.value, 'del')">del</button>
             </div>
+
             <div class="col-3 text-start my-auto">
               <div class="nome-artista-salvato  ps-3 ps-lg-1"></div>
             </div>
           </div>
-          <div class="row">
-
-          </div>
         </div>
-
+        
       </div>
-
+    </div>
     </div>
 
-    </div>
-
-  <script src="../../src/code.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="../../src/code.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
   </body>
-
 </html>
