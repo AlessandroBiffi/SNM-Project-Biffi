@@ -257,6 +257,11 @@ body {
   #artista-track {
     font-size: 20px;
   }
+
+  .by-playlist{
+    font-size: 14px;
+  }
+
 }
 
 /* SCHERMO WIDE 575 */
@@ -278,4 +283,9 @@ body {
     display: flex;
     text-align: center;
   }
+
+  .by-playlist{
+    font-size: 10px;
+  }
+
 }

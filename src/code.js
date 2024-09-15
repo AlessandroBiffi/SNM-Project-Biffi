@@ -1382,7 +1382,7 @@ function ricercaPlaylistPub() {
               
               for(var j=0; j<res.users.length; j++ ){
                 if(res.playlists[i]._iduser == res.users[j]._id)
-                clone.getElementsByClassName("by-playlist")[0].innerHTML = res.users[j].name_user
+                clone.getElementsByClassName("by-playlist")[0].innerHTML = "by "+ res.users[j].name_user
               }
               
               document.getElementById("loadingBox").classList.add("d-none")
@@ -1436,7 +1436,7 @@ function seeLastTenPlay(){
 
           for(var j=0; j<res.users.length; j++ ){
             if(res.playlists[i]._iduser == res.users[j]._id)
-            clone.getElementsByClassName("by-playlist")[0].innerHTML = res.users[j].name_user
+            clone.getElementsByClassName("by-playlist")[0].innerHTML = "by " + res.users[j].name_user
           }
 
           document.getElementById("text-avvertimento").classList.remove("d-none")
