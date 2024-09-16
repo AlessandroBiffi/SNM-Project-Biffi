@@ -987,7 +987,14 @@ function selectTrackPlaylist() {
             }
           }
 
-          if(res.length == 0){  //in caso non esiste una playlist a cui aggiungere la canzone ti rimandera alla pagina di creazione playlist
+          var checkOnlyImported = 0
+          for(var i=0; i<res.length; i++){
+            checkOnlyImported = 0
+            if(res[i].tipo = 'importata')
+              checkOnlyImported = 1   //cosi capisco se sono tutte importate e deve apparire ancora "crea playlist"
+          }
+
+          if(res.length == 0  || checkOnlyImported){  //in caso non esiste una playlist a cui aggiungere la canzone ti rimandera alla pagina di creazione playlist
               
             var bottone = document.getElementsByClassName("button-playlist btn btn-secondary dropdown-toggle")[0]
             bottone.classList.remove('dropdown-toggle')
