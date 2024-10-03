@@ -58,20 +58,20 @@
 
         <div class="col-6">
           <div class="row mb-3">
-            <div class="col-12 text-center">
+            <div class="col-12 text-center ps-5">
               <h3>Artisti preferiti</h3>
             </div>
           </div>
 
           <div id="loadingBox" class="row">
             <div class="col-12 text-center">
-              <h5 id="loading">Caricamento</h5>
+              <h5 class="loading">Caricamento</h5>
             </div>
           </div>
 
           <div class="singolo-artista-salvato row text-start mb-2 d-none">
-            <div class="offset-3 col-3 text-end">
-              <button type="button" class="btn artista-salvato btn-danger" value="" onclick="modificaArtistsFav(this.value, 'del')">del</button>
+            <div class="offset-3 col-3 text-end my-auto t-3">
+              <img src="../../styles/icons/delete.png" style="cursor: pointer;"  class="btn-artista-salvato" value="" onclick="modificaArtistsFav(this.value, 'del')">
             </div>
 
             <div class="col-3 text-start my-auto">

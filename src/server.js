@@ -281,12 +281,14 @@ async function addPlaylistPersonale(res, playlist) {
 
       var snmClient = await new mongoClient(uri).connect()
       var importata = await snmClient.db("SNM").collection('playlist').findOne(filter)
-      //console.log(importata)
+      delete importata.liked_by //rimuovo chi ha messo like perche inutile per la playlist importata
+      console.log(importata)
       importata._idOriginale = importata._id //mi salvo id originale della playlist per fare controlli in caso si cerchi di importarla piu di una volta per bloccare questa operazione
       delete importata['_id']; //tolgo _id playlist pubblica cosi posso dargliene uno suo essendo ora nel mio profilo e non piu associata all'altro utente
       importata.importFrom = importata._iduser //salvo utente da cui ho importato playlist
       importata._iduser = playlist._iduser //metto il mio id collegato alla playlist
       importata.tipo = "importata"
+      importata.data_creazione = new Date().toISOString().split('T')[0] //assegno data di importazione, ormai la playlist e' mia 
       //console.log(importata)
 
 
@@ -322,11 +324,75 @@ async function addPlaylistPersonale(res, playlist) {
 
 async function viewPlaylistsPersonali(res, id) {
 
+
   try {
     var snmClient = await new mongoClient(uri).connect()
     var item = await snmClient.db("SNM").collection('playlist').find({
-      "_iduser": id
+      $and: [{
+          "_iduser": id
+        },
+        {
+          $or: [{
+              "tipo": "pubblica"
+            },
+            {
+              "tipo": "privata"
+            }
+          ]
+        }
+      ]
     }).toArray()
+    res.send(item)
+  } catch (e) {
+    res.status(500).send(`Errore generico: ${e}`)
+  }
+
+}
+
+async function viewPlaylistsPersonaliLikedFollow(res, id) {
+
+  var playImportate = {
+    $and: [{
+        "_iduser": id
+      },
+      {
+        "tipo": "importata"
+      }
+    ]
+  }
+
+  var playFollow = {
+    "_id": new ObjectId(id)
+  }
+
+  try {
+    var snmClient = await new mongoClient(uri).connect()
+    var itemImp = await snmClient.db("SNM").collection('playlist').find(playImportate).toArray()
+    var itemFollow = await snmClient.db("SNM").collection('users').find(playFollow).project({
+      liked_playlists: 1
+    }).toArray()
+    console.log(itemFollow[0].liked_playlists)
+    if (itemFollow[0].liked_playlists !== undefined) {
+      var elencoIDplaylistLiked = [] //per filtro
+      for (var i = 0; i < itemFollow[0].liked_playlists.length; i++) {
+        elencoIDplaylistLiked.push(new ObjectId(itemFollow[0].liked_playlists[i].idPlayPub)) //dal elenco degli id poi associero il proprio username (genio grazie)
+      }
+      //console.log(elencoIDplaylistLiked)
+      var filterIDs = {
+        "_id": {
+          "$in": elencoIDplaylistLiked
+        } //$in seleziona i documenti in cui il valore di un campo è uguale a qualsiasi valore nell'array specificato
+      }
+
+      var data_itemFollow = await snmClient.db("SNM").collection('playlist').find(filterIDs).toArray()
+    } else {
+      var data_itemFollow = ""
+    }
+
+    var item = {
+      itemImp,
+      data_itemFollow
+    }
     res.send(item)
   } catch (e) {
     res.status(500).send(`Errore generico: ${e}`)
@@ -444,6 +510,134 @@ async function deleteTrackPlaylistPersonale(res, id) {
   }
 
 }
+
+//FUNZIONE PER AGGIUNGERE O RIMUOVERE LIKE AD UNA CANZONE
+
+async function addUnaddLike(res, data) {
+
+  if (data._idplaylist == '') {
+    res.status(400).send("Missing selected playlist")
+    return
+  }
+
+  var filter_user = {
+    "_id": new ObjectId(data._iduser)
+  }
+
+  if (data.azione == "like") {
+
+    var playPub = {
+      $push: {
+        "liked_playlists": {
+          "idPlayPub": data.idplaylistPub,
+          "idUserPub": data._iduser
+        }
+      }
+    }
+
+    var snmClient = await new mongoClient(uri).connect()
+    var liked = await snmClient.db("SNM").collection('users').updateOne(filter_user, playPub) //aggiunta playlist piaciuta al proprio profilo
+    //console.log(liked)
+
+    //aggiungo chi ha messo like alla playlist
+    var userAddLike = await snmClient.db("SNM").collection('users').find({
+      "_id": new ObjectId(data._iduser)
+    }).toArray()
+    await snmClient.db("SNM").collection('playlist').updateOne({
+      "_id": new ObjectId(data.idplaylistPub)
+    }, {
+      $push: {
+        "liked_by": userAddLike[0].name_user
+      }
+    })
+
+    res.send(liked)
+
+  } else if (data.azione == "unlike") {
+    var playPub = {
+      $pull: {
+        "liked_playlists": {
+          "idPlayPub": data.idplaylistPub,
+          "idUserPub": data._iduser
+        }
+      }
+    }
+
+    var snmClient = await new mongoClient(uri).connect()
+    var liked = await snmClient.db("SNM").collection('users').updateOne(filter_user, playPub)
+
+    var userAddLike = await snmClient.db("SNM").collection('users').find({
+      "_id": new ObjectId(data._iduser)
+    }).toArray()
+    await snmClient.db("SNM").collection('playlist').updateOne({
+      "_id": new ObjectId(data.idplaylistPub)
+    }, {
+      $pull: {
+        "liked_by": userAddLike[0].name_user
+      }
+    })
+    //console.log(liked)
+
+    res.send(liked)
+  }
+
+
+}
+
+//FUNZIONE PER VEDERE SE PLAYLIST PUBBLICA HA GIA MI PIACE O MENO
+
+async function isLiked(res, data) {
+
+  //console.log(data)
+
+  var filter = {
+    $and: [{
+        "_id": new ObjectId(data._iduser)
+      },
+      {
+        "liked_playlists.idPlayPub": data.idplaylistPub
+      }
+    ]
+  }
+
+
+  var snmClient = await new mongoClient(uri).connect()
+
+  var doppione = await snmClient.db("SNM").collection('users').findOne(filter)
+  //console.log(doppione)
+  var numLike = await snmClient.db("SNM").collection('playlist').findOne({
+    "_id": new ObjectId(data.idplaylistPub)
+  })
+  console.log(numLike)
+
+  if (numLike.liked_by != undefined) { //caso sia vuoto o non esistente perche playlist nuova
+    if (doppione == null) {
+      res.send({
+        "status": "0",
+        "numLike": numLike.liked_by.length
+      }) //no like
+    } else if (doppione != null) {
+      res.json({
+        "status": "1",
+        "numLike": numLike.liked_by.length
+      }) //like
+    }
+  } else {
+    if (doppione == null) {
+      res.send({
+        "status": "0",
+        "numLike": 0
+      }) //no like
+    } else if (doppione != null) {
+      res.json({
+        "status": "1",
+        "numLike": 0
+      }) //like
+    }
+  }
+
+}
+
 
 //FUNZ PER AGGIUNGERE ARTISTI PREFERITI
 
@@ -879,11 +1073,32 @@ app.post('/users/playlistPersonali/add', function(req, res) {
   addPlaylistPersonale(res, req.body)
 });
 
+//AGGIUNTA o RIMOZIONE LIKE AD UNA PLAYLIST
+
+app.post('/users/playlistPersonali/typelike', function(req, res) {
+  // #swagger.tags = ['playlist']
+  addUnaddLike(res, req.body)
+});
+
+//VISUALIZZAZZIONE O MENO DI CUORE VUOTO/PIENO
+
+app.post('/users/playlistPersonali/isLiked', function(req, res) {
+  // #swagger.tags = ['playlist']
+  isLiked(res, req.body)
+});
+
 //VISUALIZZA PLAYLISTs PERSONALI
 
 app.get('/users/playlistPersonali/view', function(req, res) {
   // #swagger.tags = ['playlist']
   viewPlaylistsPersonali(res, req.query.id)
+});
+
+//VISUALIZZA PLAYLISTs IMPORTATE E SEGUITE
+
+app.get('/users/playlistPersonali/viewLikedFollow', function(req, res) {
+  // #swagger.tags = ['playlist']
+  viewPlaylistsPersonaliLikedFollow(res, req.query.id)
 });
 
 //VISUALIZZA singola PLAYLIST PERSONALE
@@ -965,6 +1180,12 @@ app.get('/users/:username', async function(req, res) {
 
 app.get('/user/:id', async function(req, res) {
   // #swagger.tags = ['auth']
+
+  if (req.params.id == '') {
+    res.status(400).send("Id mancante")
+    return
+  }
+
   filter = {
     "_id": new ObjectId(req.params.id) //trovo dati playlist che voglio importare
   }

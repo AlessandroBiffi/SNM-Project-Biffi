@@ -144,22 +144,38 @@ body {
   box-shadow: 0 0 10px 2px rgba(0, 64, 0, 0.5); /* Reduce shadow on click */
 }
 
-/* .bi {
+/* EFFETTO BOTTONE PER TORNARE INDIETRO NELLE PAGINE */
+
+ .bi {
   transition: 0.4s;
 }
 
 .bi:hover {
   transition: 0.4s;
   transform: scale(1.15);
-} */
+} 
+
+/* EFFETTO SCRITTA PER ANDARE PLAYLIST SEGUITE/IMPORTATE */
+
+.playImpoSeg {
+  color: #ffffff;
+}
+
+.playImpoSeg:hover {
+  cursor:pointer;
+  color: rgb(221, 255, 217);
+  font-size: 26.5px; 
+  transition: 0s;
+  
+} 
 
 /* EFFETTO LOADING */
 
-#loading {
+.loading {
   opacity: 20%;
 }
 
-#loading:after {
+.loading:after {
   overflow: hidden;
   display: inline-block;
   vertical-align: bottom;
@@ -196,6 +212,10 @@ body {
 @media screen and (max-width: 991px) {
   #playlist {
     display: none;
+  }
+
+  .data-playlist {
+    font-size: 12px;
   }
 }
 

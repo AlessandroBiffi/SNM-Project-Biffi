@@ -10,27 +10,32 @@
   <body onload="viewPlaylistPersonale()">
 
     <div style="padding-top: 30px; padding-left: 30px;">
-      <svg onclick="location.href = 'personalplaylist.html'" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+      <svg id="setURLCorrettoBack" onclick="" xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
         <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z" />
       </svg>
     </div>
 
     <div class="container" style="color: white; margin-top: 10vh;">
-      
-      <div class="row text-start">
-        <h1 id="titolo-playlist"></h1>
-      </div>
 
       <div class="row text-start">
         <div class="col-8">
+          <h1 id="titolo-playlist"></h1>
           <h5 id="descrizione-playlist" style="color: rgb(204, 204, 204);"></h5>
+          <h6 id="tags-playlist" style="color: royalblue;"></h6>
           <h6 id="byIf" style="color: rgb(140, 140, 140);"></h6>
+          <div id="box1Loading">
+            <div class="loading h1">Titolo</div>
+            <div class="loading h5">descrizione</div>
+          </div>
+          <div id="box3Loading">
+            <div class="loading h6">hashtags</div>
+          </div>
+          <div id="box2Loading">
+            <div class="loading h6">by</div>
+          </div>
         </div>
       </div>
 
-      <div class="row text-start">
-        <h6 id="tags-playlist" style="color: royalblue;"></h6>
-      </div>
 
       <div class="row mt-4 text-start" style="color: grey;">
         <div class="img-song col-2">Copertina</div>
@@ -41,16 +46,20 @@
         <div class="delete-song col-1"></div>
       </div>
 
+      <div id="box4Loading" class="mt-5">
+        <div class="loading h2">Caricamento canzoni</div>
+      </div>
+
       <div class="song row mt-4 d-none">
         <div class="col-2">
           <img class="img-song">
         </div>
-        <div class="titolo-song col-2 col-md-3 mt-3 ps-4 ps-md-0"></div>
-        <div class="artista-song col-2 mt-3"></div>
+        <div class="titolo-song col-2 col-md-3 mt-3 ps-4 ps-md-0" style="overflow-wrap: break-word;"></div>
+        <div class="artista-song col-2 mt-3" style="overflow-wrap: break-word;"></div>
         <div class="uscita-song col-2 mt-3"></div>
         <div class="durata-song col-2 mt-3"></div>
-        <div class="delete-song col-1 mt-3">
-          <button type="button" class="btn-song btn btn-danger d-none mb-5" onclick="deleteSongPlaylistPersonale(this.id)">del</button>
+        <div class="delete-song col-1 mt-3 text-end">
+          <img src="../../styles/icons/delete.png" style="cursor: pointer;" class="btn-song d-none mb-5" onclick="deleteSongPlaylistPersonale(this.id)">
         </div>
       </div>
 

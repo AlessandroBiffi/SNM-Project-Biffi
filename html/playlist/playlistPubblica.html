@@ -35,17 +35,23 @@
         </div>
       </div>
 
-      <div class="row text-start">
-        <div class="delete-song col-1 mt-3">
+      <div class="row mt-1">
+        
+        <div class="col-2 delete-song  text-start">
           <button type="button" class="btn-song btn btn-success" onclick="importa(this.id)">import</button>
         </div>
+        <div class="pt-3">
+          <img name="like" class="like-song" src="../../styles/icons/cuore-vuoto.png" style="width: 32px; height: 32px; cursor: pointer; float: left" onclick="addUnaddSeguiti(this.name)">
+          <h3 id="numLike" style="padding-left: 40px; padding-top: 3px;">0</h3>
+        </div>
+
       </div>
 
       <div class="row mt-4" style="color: grey;">
         <div class="img-song col-2">Copertina</div>
         <div class="titolo-song col-3 ps-4 ps-md-0">Titolo</div>
         <div class="artista-song col-2">Artista</div>
-        <div class="uscita-song col-2">Uscita</div>
+        <div class="uscita-song col-2">Uscita</div> 
         <div class="durata-song col-2">Durata</div>
         <div class="delete-song col-1"></div>
       </div>

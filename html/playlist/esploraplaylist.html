@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="row mb-5">
+      <div class="row pb-5">
         <div class="offset-1 col-4 offset-sm-2 col-sm-3 col-xl-4">
           <input id="search-esplora-tags" class="form-control me-2 border-3 border-success" type="search" placeholder="#tag1, #tag2..." aria-label="Search" onkeyup="setHashtag()" oninput="checkVuoto()">
         </div>
@@ -42,7 +42,7 @@
       </div>
 
       <div id="loadingBox" class="col-12 text-center" style="margin-top: 15vh;">
-        <h1 id="loading">Caricamento playlists</h1>
+        <h1 class="loading">Caricamento playlists</h1>
       </div>
 
       <div id="noResultBox" class="col-12 text-center d-none" style="margin-top: 15vh; opacity: 20%;">
@@ -51,9 +51,9 @@
 
       <div class="singola-playlist-pubblica row mt-4 d-none">
         <div class="offset-1 col-2 text-start">
-          <button id="" type="button" class="vedi-playlist btn btn-primary" onclick="location.href = 'playlistPubblica.html' + '?idplaylist=' + this.id">vedi</button>
+          <img src="../../styles/icons/eye.png" style="cursor: pointer;" id="" class="vedi-playlist" onclick="location.href = 'playlistPubblica.html' + '?idplaylist=' + this.id">
         </div>
-        <div class="titolo-playlist col-3 text-start my-auto"></div>
+        <div class="titolo-playlist col-3 text-start my-auto" style="overflow-wrap: break-word;"></div>
         <div class="data-playlist col-3 text-start my-auto" style="color: grey;"></div>
         <div class="by-playlist col-2 text-end my-auto " style="color: grey;">by</div>
       </div>
